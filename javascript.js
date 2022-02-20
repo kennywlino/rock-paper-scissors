@@ -7,9 +7,9 @@
 // compare playerSelection and computerSelection and go through logic for win/tie/loss:
 //      if they are the same: (rock: rock)
 //           it's a tie;
-//      else if (player is rock) && (computer is paper) OR
-//              (player is scissors) && (computer is rock) OR 
-//              (player is paper) && (computer is scissors)
+//      else if (computer is rock) && (player is scissors) OR
+//              (computer is paper) && (player is rock) OR 
+//              (computer is scissors) && (player is paper)
 //           computer wins;
 //      else:
 //           player wins;
@@ -31,9 +31,25 @@ function computerPlay() {
         computerSelection = 'scissors';
         break;
     }
-    return computerSelection;
+    return computerSelection;result = alert(result)
+}
+function playRound(computerSelection, playerSelection) {
+    computerSelection = computerSelection.charAt(0).toUpperCase() + computerSelection.slice(1);
+    playerSelection = playerSelection.charAt(0).toUpperCase() + playerSelection.slice(1);
+    if (computerSelection == playerSelection) { 
+        return "It's a tie!";
+    } else if ((computerSelection == 'rock' && playerSelection == 'scissors') ||
+               (computerSelection == 'paper' && playerSelection == 'rock') ||
+               (computerSelection == 'scissors' && playerSelection == 'paper')) {
+        return `You Lose! ${computerSelection} beats ${playerSelection}`;
+    } else {
+        return `You Win! ${playerSelection} beats ${computerSelection}`; 
+        }
 }
 
 
-let computerSelection = computerPlay();
-let playerSelection = prompt("");
+const computerSelection = computerPlay();
+let playerSelection = prompt("Let's play! Rock! Paper! Scissors!");
+playerSelection = playerSelection.toLowerCase();
+result = playRound(computerSelection, playerSelection)
+alert(result)
