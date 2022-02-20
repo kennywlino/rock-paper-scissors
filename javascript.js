@@ -37,19 +37,55 @@ function playRound(computerSelection, playerSelection) {
     computerSelection = computerSelection.charAt(0).toUpperCase() + computerSelection.slice(1);
     playerSelection = playerSelection.charAt(0).toUpperCase() + playerSelection.slice(1);
     if (computerSelection == playerSelection) { 
-        return "It's a tie!";
-    } else if ((computerSelection == 'rock' && playerSelection == 'scissors') ||
-               (computerSelection == 'paper' && playerSelection == 'rock') ||
-               (computerSelection == 'scissors' && playerSelection == 'paper')) {
-        return `You Lose! ${computerSelection} beats ${playerSelection}`;
+        alert("It's a tie!");
+        return "tie";
+    } else if ((computerSelection == 'Rock' && playerSelection == 'Scissors') ||
+               (computerSelection == 'Paper' && playerSelection == 'Rock') ||
+               (computerSelection == 'Scissors' && playerSelection == 'Paper')) {
+        alert (`You lose this round! ${computerSelection} beats ${playerSelection}`);
+        return "loss";
     } else {
-        return `You Win! ${playerSelection} beats ${computerSelection}`; 
-        }
+        alert (`You win this round! ${playerSelection} beats ${computerSelection}`);
+        return "win";
+    }
 }
 
+function game(numRounds) {
+    let playerWins = 0;
+    let computerWins = 0;
+    let ties = 0;
+    for (let i = 1; i <= numRounds; i++) {
+        const computerSelection = computerPlay();
+        let playerSelection = prompt(`Round ${i} out of ${numRounds}: Rock! Paper! Scissors!`);
+        playerSelection = playerSelection.toLowerCase();
+        playerResult = playRound(computerSelection, playerSelection);
+        if (playerResult == 'win') {
+            playerWins++;
+        } else if (playerResult == 'loss') {
+            computerWins++;
+        } else {
+            ties++;
+        }
+    }
+    return [playerWins, computerWins, ties];
+}
 
-const computerSelection = computerPlay();
-let playerSelection = prompt("Let's play! Rock! Paper! Scissors!");
-playerSelection = playerSelection.toLowerCase();
-result = playRound(computerSelection, playerSelection)
-alert(result)
+function displayFinalResults(totalScore, numRounds) {
+    const playerWins = totalScore[0];
+    const computerWins = totalScore[1];
+    const ties = totalScore[2];
+
+    if (playerWins > computerWins) {
+        alert(`Congratulations, you won the tournament! Out of ${numRounds} rounds, you won ${playerWins} times and tied ${ties} times.`)
+    } else if (playerWins < computerWins) {
+        alert(`Sorry, you lost the tournament. Out of ${numRounds}, you won ${playerWins} and tied ${ties} times.`)
+    } else {
+        alert(`Wow! You tied with the computer. Try again?`)
+    }
+
+}
+
+numRounds = prompt('How many rounds?');
+totalScore = game(numRounds);
+displayFinalResults(totalScore, numRounds);
+
