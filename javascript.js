@@ -14,6 +14,15 @@
 //      else:
 //           player wins;
 
+// version with buttons
+// add EventListener on each button
+// on button click:
+//    playerSelection = button;
+//    computerSelection = random;
+//    get player result
+//    update the score
+//    if  player or computer has 5 wins:
+//        stop game
 
 // To generate random ints, we need to add Math.floor() since JavaScript does not distinguish between ints and floats;
 // see https://www.w3schools.com/js/js_random.asp
@@ -31,61 +40,61 @@ function computerPlay() {
         computerSelection = 'scissors';
         break;
     }
-    return computerSelection;result = alert(result)
+    return computerSelection;
 }
+
+function updateScore(playerResult, totalScore) {
+    if (playerResult == 'win') {
+        totalScore['player'] += 1;
+    } else if (playerResult == 'loss') {
+        totalScore['comp'] += 1;
+    } else {
+        totalScore['tie'] += 1;
+    }
+    alert(JSON.stringify(totalScore));
+}
+
+function isEndGame() {
+    return totalScore.player == 5 || totalScore.comp == 5;
+}
+
+function showFinalResults(totalScore) {
+}
+
 function playRound(computerSelection, playerSelection) {
-    computerSelection = computerSelection.charAt(0).toUpperCase() + computerSelection.slice(1);
-    playerSelection = playerSelection.charAt(0).toUpperCase() + playerSelection.slice(1);
     if (computerSelection == playerSelection) { 
-        alert("It's a tie!");
         return "tie";
-    } else if ((computerSelection == 'Rock' && playerSelection == 'Scissors') ||
-               (computerSelection == 'Paper' && playerSelection == 'Rock') ||
-               (computerSelection == 'Scissors' && playerSelection == 'Paper')) {
-        alert (`You lose this round! ${computerSelection} beats ${playerSelection}`);
+    } else if ((computerSelection == 'rock' && playerSelection == 'scissors') ||
+               (computerSelection == 'paper' && playerSelection == 'rock') ||
+               (computerSelection == 'scissors' && playerSelection == 'paper')) {
         return "loss";
     } else {
-        alert (`You win this round! ${playerSelection} beats ${computerSelection}`);
         return "win";
     }
 }
 
-function game(numRounds) {
-    let playerWins = 0;
-    let computerWins = 0;
-    let ties = 0;
-    for (let i = 1; i <= numRounds; i++) {
-        const computerSelection = computerPlay();
-        let playerSelection = prompt(`Round ${i} out of ${numRounds}: Rock! Paper! Scissors!`);
-        playerSelection = playerSelection.toLowerCase();
-        playerResult = playRound(computerSelection, playerSelection);
-        if (playerResult == 'win') {
-            playerWins++;
-        } else if (playerResult == 'loss') {
-            computerWins++;
-        } else {
-            ties++;
-        }
-    }
-    return [playerWins, computerWins, ties];
+function playGame(totalScore) {
+    const buttons = document.querySelectorAll('button');
+    buttons.forEach((button) => {
+        button.addEventListener('click', () => {
+            alert('working');
+            computerSelection = computerPlay();
+            playerSelection = button.id;
+            playerResult = playRound(computerSelection, playerSelection);
+            updateScore(playerResult, totalScore);
+            if(isEndGame()) {
+                // disable clicks
+                showFinalResults(totalScore);
+            }
+        });
+    });
 }
 
-function displayFinalResults(totalScore, numRounds) {
-    const playerWins = totalScore[0];
-    const computerWins = totalScore[1];
-    const ties = totalScore[2];
+let totalScore = {
+    player: 0,
+    comp: 0,
+    tie: 0,
+};
 
-    if (playerWins > computerWins) {
-        alert(`Congratulations, you won the tournament! Out of ${numRounds} rounds, you won ${playerWins} times and tied ${ties} times.`)
-    } else if (playerWins < computerWins) {
-        alert(`Sorry, you lost the tournament. Out of ${numRounds}, you won ${playerWins} and tied ${ties} times.`)
-    } else {
-        alert(`Wow! You tied with the computer. Try again?`)
-    }
-
-}
-
-numRounds = prompt('How many rounds?');
-totalScore = game(numRounds);
-displayFinalResults(totalScore, numRounds);
+playGame(totalScore);
 
