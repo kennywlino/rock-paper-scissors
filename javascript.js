@@ -22,7 +22,8 @@
 //    get player result
 //    update the score
 //    if  player or computer has 5 wins:
-//        stop game
+//        disable buttons
+//        announce winner
 
 // To generate random ints, we need to add Math.floor() since JavaScript does not distinguish between ints and floats;
 // see https://www.w3schools.com/js/js_random.asp
@@ -51,14 +52,29 @@ function updateScore(playerResult, totalScore) {
     } else {
         totalScore['tie'] += 1;
     }
-    alert(JSON.stringify(totalScore));
 }
 
 function isEndGame() {
     return totalScore.player == 5 || totalScore.comp == 5;
 }
 
-function showFinalResults(totalScore) {
+function disableButtons() {
+    const buttons = document.querySelectorAll('button');
+    buttons.forEach((button) => button.disabled = true);
+}
+
+function displayScore(totalScore) {
+    const body = document.querySelector('body');
+
+    // !! will make value 'truthy'
+    if (!!document.getElementById('score')) {
+        const divScore = document.getElementById('score');
+        divScore.textContent = JSON.stringify(totalScore);
+    } else {
+    const div = document.createElement('div');
+    div.setAttribute('id', 'score');
+    body.appendChild(div);
+    }
 }
 
 function playRound(computerSelection, playerSelection) {
@@ -82,19 +98,20 @@ function playGame(totalScore) {
             playerSelection = button.id;
             playerResult = playRound(computerSelection, playerSelection);
             updateScore(playerResult, totalScore);
+            displayScore(totalScore);
             if(isEndGame()) {
-                // disable clicks
-                showFinalResults(totalScore);
+                disableButtons();
+                alert('gg');
             }
         });
     });
 }
+
 
 let totalScore = {
     player: 0,
     comp: 0,
     tie: 0,
 };
-
 playGame(totalScore);
 
