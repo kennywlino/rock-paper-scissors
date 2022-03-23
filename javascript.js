@@ -63,18 +63,27 @@ function disableButtons() {
     buttons.forEach((button) => button.disabled = true);
 }
 
-function displayScore(totalScore) {
-    const body = document.querySelector('body');
+function displayScore(playerResult, totalScore) {
+//     const body = document.querySelector('body');
+//     if (!document.getElementById('score')) {
+//         let divScore = document.createElement('div');
+//         divScore.setAttribute('id', 'score');
+//         body.appendChild(divScore);
+//     }
+//     divScore = document.getElementById('score');
+//     divScore.textContent = `${playerResult}` + "\n" + JSON.stringify(totalScore);
+// }
 
-    // !! will make value 'truthy'
-    if (!!document.getElementById('score')) {
-        const divScore = document.getElementById('score');
-        divScore.textContent = JSON.stringify(totalScore);
-    } else {
-    const div = document.createElement('div');
-    div.setAttribute('id', 'score');
-    body.appendChild(div);
-    }
+    divScore = document.getElementById('score');
+    divScore.querySelector('#player #player-score').textContent = "test";
+//     divScore.textContent = `${playerResult}` + "\n" + JSON.stringify(totalScore);
+}
+
+function prettifyScore(totalScore) {
+    playerScore = totalScore['player'];
+    computerScore = totalScore['comp'];
+    tieScore = totalScore['tie'];
+    return '';
 }
 
 function playRound(computerSelection, playerSelection) {
@@ -93,12 +102,11 @@ function playGame(totalScore) {
     const buttons = document.querySelectorAll('button');
     buttons.forEach((button) => {
         button.addEventListener('click', () => {
-            alert('working');
             computerSelection = computerPlay();
             playerSelection = button.id;
             playerResult = playRound(computerSelection, playerSelection);
             updateScore(playerResult, totalScore);
-            displayScore(totalScore);
+            displayScore(playerResult, totalScore);
             if(isEndGame()) {
                 disableButtons();
                 alert('gg');
