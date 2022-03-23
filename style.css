@@ -7,6 +7,10 @@ body {
     color: white;
 }
 
+h1 {
+    font-size: 250%;
+}
+
 #header,
 #user-buttons,
 #score {
@@ -38,6 +42,21 @@ body {
     align-items: flex-start; 
     background: blue;
     padding: 0% 2%;
+}
+
+#score #player,
+#score #tie,
+#score #computer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#player-score,
+#tie-score,
+#computer-score {
+    font-size: x-large;
 }
 
 button {

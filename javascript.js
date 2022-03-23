@@ -63,27 +63,19 @@ function disableButtons() {
     buttons.forEach((button) => button.disabled = true);
 }
 
-function displayScore(playerResult, totalScore) {
-//     const body = document.querySelector('body');
-//     if (!document.getElementById('score')) {
-//         let divScore = document.createElement('div');
-//         divScore.setAttribute('id', 'score');
-//         body.appendChild(divScore);
-//     }
-//     divScore = document.getElementById('score');
-//     divScore.textContent = `${playerResult}` + "\n" + JSON.stringify(totalScore);
-// }
-
-    divScore = document.getElementById('score');
-    divScore.querySelector('#player #player-score').textContent = "test";
-//     divScore.textContent = `${playerResult}` + "\n" + JSON.stringify(totalScore);
+function getWinner(totalScore) {
+    if (totalScore.player == 5) {
+        return "Player";
+    } else {
+        return "Computer"
+    }
 }
 
-function prettifyScore(totalScore) {
-    playerScore = totalScore['player'];
-    computerScore = totalScore['comp'];
-    tieScore = totalScore['tie'];
-    return '';
+function displayScore(playerResult, totalScore) {
+    divScore = document.getElementById('score');
+    divScore.querySelector('#player #player-score').textContent = totalScore.player;
+    divScore.querySelector('#tie #tie-score').textContent = totalScore.tie;
+    divScore.querySelector('#computer #computer-score').textContent = totalScore.comp;
 }
 
 function playRound(computerSelection, playerSelection) {
@@ -109,7 +101,8 @@ function playGame(totalScore) {
             displayScore(playerResult, totalScore);
             if(isEndGame()) {
                 disableButtons();
-                alert('gg');
+                winner = getWinner(totalScore);
+                alert(`GG! ${winner} wins`);
             }
         });
     });
